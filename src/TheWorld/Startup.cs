@@ -37,6 +37,8 @@ namespace TheWorld
                     .AddSqlServer()
                     .AddDbContext<WorldContext>();
 
+            services.AddTransient<WorldContextSeedData>();
+
 #if DEBUG    
             services.AddScoped<IMailService, DebugMailService>();
 #else
@@ -45,7 +47,7 @@ namespace TheWorld
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, WorldContextSeedData seedData)
         {
             app.UseStaticFiles();
 
@@ -57,6 +59,8 @@ namespace TheWorld
                     defaults: new { controller = "App", action = "Index" }
                 );
             });
+
+            seedData.EnsureSeedData();
         }
 
         // Entry point for the application.
