@@ -1,10 +1,15 @@
 ﻿using System;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 
 namespace TheWorld.Models
 {
-    public class WorldContext: DbContext
+    public class WorldContext: IdentityDbContext<WorldUser>
     {
+        //EF Migration Commands
+        //1) dnx ef migrations add InitialDatabase
+        //2) dnx ef migrations add IdentityEntities
+
         public WorldContext()
         {
             Database.EnsureCreated();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
 using System;
 using System.Linq;
 using TheWorld.Models;
@@ -20,8 +21,7 @@ namespace TheWorld.Controllers.Web
 
         public IActionResult Index()
         {
-            var trips = _repository.GetAllTrips();
-            return View(trips);
+            return View();
         }
 
         public IActionResult About()
@@ -58,6 +58,13 @@ namespace TheWorld.Controllers.Web
                 }
             }
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Trips()
+        {
+            var trips = _repository.GetAllTrips();
+            return View(trips);
         }
     }
 }

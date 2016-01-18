@@ -1,19 +1,33 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TheWorld.Models
 {
     public class WorldContextSeedData
     {
+        private UserManager<WorldUser> userManager;
         private WorldContext _context;
 
-        public WorldContextSeedData(WorldContext context)
+        public WorldContextSeedData(WorldContext context, UserManager<WorldUser> userManage)
         {
             _context = context;
+            userManager = userManage;
         }
-        public void EnsureSeedData()
+        public async Task EnsureSeedDataAsync()
         {
+            if(await userManager.FindByEmailAsync("jomit@theworld.com") == null)
+            {
+                var newUser = new WorldUser()
+                {
+                    UserName = "jomit",
+                    Email = "jomit@theworld.com"
+                };
+                await userManager.CreateAsync(newUser, "pass@word1");
+            }
+
             if (!_context.Trips.Any())
             {
                 //Add new data
@@ -21,7 +35,7 @@ namespace TheWorld.Models
                 {
                     Name = "US Trip",
                     Created = DateTime.UtcNow,
-                    UserName = "",
+                    UserName = "jomit",
                     Stops = new List<Stop>()
                     {
                         new Stop() {  Name = "Atlanta, GA", Arrival = new DateTime(2014, 6, 4), Latitude = 33.748995, Longitude = -84.387982, Order = 0 },
@@ -39,7 +53,7 @@ namespace TheWorld.Models
                 {
                     Name = "World Trip",
                     Created = DateTime.UtcNow,
-                    UserName = "",
+                    UserName = "jomit",
                     Stops = new List<Stop>()
                     {
                         new Stop() { Order = 0, Latitude =  33.748995, Longitude =  -84.387982, Name = "Atlanta, Georgia", Arrival = DateTime.Parse("Jun 3, 2014") },
