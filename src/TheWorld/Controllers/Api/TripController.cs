@@ -28,7 +28,7 @@ namespace TheWorld.Controllers.Api
         [HttpGet("")]
         public JsonResult Get()
         {
-            var results = Mapper.Map<IEnumerable<TripViewModel>>(repository.GetAllTripsWtihStops());
+            var results = Mapper.Map<IEnumerable<TripViewModel>>(repository.GetAllTripsWithStops());
             return Json(results);
         }
 
@@ -44,11 +44,12 @@ namespace TheWorld.Controllers.Api
                     //Save to the database
                     logger.LogInformation("Starting to Save a new Trip");
 
-
-
-
-                    Response.StatusCode = (int)HttpStatusCode.Created;
-                    return Json(Mapper.Map<TripViewModel>(newTrip));
+                    repository.AddTrip(newTrip);
+                    if (repository.SaveAll())
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.Created;
+                        return Json(Mapper.Map<TripViewModel>(newTrip));
+                    }
                 }
             }
             catch (Exception ex)

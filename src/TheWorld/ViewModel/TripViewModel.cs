@@ -15,5 +15,7 @@ namespace TheWorld.ViewModel
         public string Name { get; set; }
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
+
+        public IEnumerable<StopViewModel> Stops { get; set; }
     }
 }
