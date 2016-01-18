@@ -27,6 +27,7 @@ namespace TheWorld.Services
             };
 
             //URL to create new bing maps key : http://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+            //BingMap portal url : https://www.bingmapsportal.com/Application#
             var bingKey = Startup.Configuration["AppSettings:BingKey"];
             var encodedName = WebUtility.UrlEncode(location);
             var url = $"http://dev.virtualearth.net/REST/v1/locations?q={encodedName}&key={bingKey}";
