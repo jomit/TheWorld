@@ -25,7 +25,7 @@ namespace TheWorld.Models
                     UserName = "jomit",
                     Email = "jomit@theworld.com"
                 };
-                await userManager.CreateAsync(newUser, "pass@word1");
+                await userManager.CreateAsync(newUser, "P@ssw0rd!");
             }
 
             if (!_context.Trips.Any())
