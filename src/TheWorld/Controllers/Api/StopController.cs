@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,6 +13,7 @@ using TheWorld.ViewModel;
 
 namespace TheWorld.Controllers.Api
 {
+    [Authorize]
     [Route("api/trips/{tripName}/stops")]
     public class StopController : Controller
     {
@@ -31,7 +33,7 @@ namespace TheWorld.Controllers.Api
         {
             try
             {
-                var results = repository.GetTripByName(tripName);
+                var results = repository.GetTripByName(tripName,User.Identity.Name);
                 if(results == null)
                 {
                     return Json(null);
@@ -73,7 +75,7 @@ namespace TheWorld.Controllers.Api
                     //Save to the database
                     logger.LogInformation("Starting to Save a new Stop");
 
-                    repository.AddStop(tripName, newStop);
+                    repository.AddStop(tripName,User.Identity.Name, newStop);
 
                     if (repository.SaveAll())
                     {
