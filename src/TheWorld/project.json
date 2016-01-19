@@ -15,11 +15,12 @@
     "EntityFramework.Commands": "7.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
     "AutoMapper": "4.1.1",
-    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final"
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final"
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel",
+    "web": "Microsoft.AspNet.Server.Kestrel --server.urls http://*:5008",
     "ef": "EntityFramework.Commands"
   },
 
@@ -39,5 +40,9 @@
   "publishExclude": [
     "**.user",
     "**.vspscc"
-  ]
+  ],
+  "scripts": {
+    "prepublish": [ "npm install", "bower install" ],
+    "prepare": "gulp minify"
+  }
 }
