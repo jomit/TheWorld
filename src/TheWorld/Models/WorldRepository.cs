@@ -21,7 +21,14 @@ namespace TheWorld.Models
         public void AddStop(string tripName, string userName,Stop newStop)
         {
             var theTrip = GetTripByName(tripName, userName);
-            newStop.Order = theTrip.Stops.Max(s => s.Order) + 1;
+            if (theTrip.Stops.Any())
+            {
+                newStop.Order = theTrip.Stops.Max(s => s.Order) + 1;
+            }
+            else
+            {
+                newStop.Order = 1;
+            }
             theTrip.Stops.Add(newStop);
             _context.Stops.Add(newStop);
         }
